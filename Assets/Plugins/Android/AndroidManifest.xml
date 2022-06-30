@@ -5,9 +5,9 @@
     android:versionCode="1"
     android:versionName="1.2.1" >
 
-    <uses-sdk
-        android:minSdkVersion="21"
-        android:targetSdkVersion="31" />
+    <queries>
+        <package android:name="com.qooapp.qoohelper" />
+    </queries>
 
     <supports-screens
         android:anyDensity="true"
@@ -29,7 +29,7 @@
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch.distinct"
         android:required="false" />
-    <!-- 訪問QooApp服務的權限 -->
+    <!-- for QooApp server -->
     <uses-permission android:name="com.qooapp.permission.CHECKER_SERVICE_ACCESS" />
 
     <application

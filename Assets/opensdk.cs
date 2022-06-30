@@ -72,7 +72,7 @@ public class opensdk : MonoBehaviour
 
             PurchaseCallback paymentCallback = new PurchaseCallback();
             // please replace product_id with real value
-            string product_id = "zhl_001";// 
+            string product_id = "zhl_002";// 
             qooAppUnity.Call("purchase", paymentCallback, androidJo, product_id);
 
         }
@@ -175,6 +175,7 @@ public class opensdk : MonoBehaviour
 
         void onSuccess(string response)
         {
+            Debug.Log("queryProducts: "+ response);
             showToast("opensdk QueryProductsCallback response = " + response);
         }
 
