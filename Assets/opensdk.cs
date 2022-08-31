@@ -16,6 +16,31 @@ public class opensdk : MonoBehaviour
         Debug.Log("opensdk jc2 = " + jc);
         androidJo = jc.GetStatic<AndroidJavaObject>("currentActivity");
         Debug.Log("opensdk androidJo = " + androidJo);
+
+        
+
+        AndroidJavaObject logUtils = new AndroidJavaObject("com.qooapp.opensdk.m.f");
+        logUtils.SetStatic("a", true);
+
+        AndroidJavaObject config = new AndroidJavaObject("com.qooapp.opensdk.m.b");
+        // Config.URL_SDK a
+        config.SetStatic("a", "https://testing-open-sdk.qoo-app.com");
+        // Config.URL_SDK_SANDBOX b
+        config.SetStatic("b", "https://testing-open-sdk-sandbox.qoo-app.com");
+        // Config.URL_LOGIN c
+        config.SetStatic("c", "https://testing-sso.qoo-app.com");
+
+        // Config.PAYMENT_URL_SDK d
+        config.SetStatic("d", "https://testing-payment-platform.qoo-app.com");
+        // Config.PAYMENT_URL_SDK_SANDBOX e
+        config.SetStatic("e", "https://testing-sandbox-payment-platform.qoo-app.com");
+
+        AndroidJavaClass encryptionClass = new AndroidJavaClass("com.qooapp.opensdk.m.d");
+        // Encryption.decode com.qooapp.opensdk.m.d.a("") testing
+        string packageName = encryptionClass.CallStatic<string>("a", "Y29tLnFvb2FwcC5xb29oZWxwZXIudGVzdGZhaXJ5");
+
+        // Config.QOOAPP_PACKAGE_NAME f
+        config.SetStatic("f", packageName);
     }
 
     // Update is called once per frame
@@ -36,29 +61,43 @@ public class opensdk : MonoBehaviour
 
         float xpos = 300;
         float ypos = 100;
-        float width = 400;
-        float heigth = 180;
+        float width = 640;
+        float heigth = 150;
         float space = heigth + 50;
         if (GUI.Button(new Rect(xpos, ypos, width, heigth), "initialize"))
         {
-            InitCallback initCallback = new InitCallback();
+            OpenSDKCallback initCallback = new OpenSDKCallback();
             AndroidJavaClass openClass = new AndroidJavaClass("com.qooapp.opensdk.QooAppOpenSDK");
             qooAppUnity = openClass.CallStatic<AndroidJavaObject>("initialize", initCallback, androidJo);
         }
         ypos += space;
-        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "CheckLicense"))
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "checkLicense"))
         {
 
-            CheckLicenseCallback verifyCallback = new CheckLicenseCallback();
+            OpenSDKCallback verifyCallback = new OpenSDKCallback();
             qooAppUnity.Call("checkLicense", verifyCallback);
 
         }
         ypos += space;
-        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "QueryProducts"))
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "queryPageProducts"))
+        {
+
+            Debug.Log("opensdk in queryPageProducts ");
+            OpenSDKCallback requestCallback = new OpenSDKCallback();
+            Debug.Log("opensdk queryPageProducts start call");
+            //
+            int pageIndex = 1;
+            qooAppUnity.Call("queryProducts", requestCallback, pageIndex);
+
+            Debug.Log("opensdk queryPageProducts after call = ");
+
+        }
+        ypos += space;
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "queryProducts"))
         {
 
             Debug.Log("opensdk in QueryProduct ");
-            QueryProductsCallback requestCallback = new QueryProductsCallback();
+            OpenSDKCallback requestCallback = new OpenSDKCallback();
             Debug.Log("opensdk QueryProduct start call");
             // 
             qooAppUnity.Call("queryProducts", requestCallback);
@@ -67,20 +106,30 @@ public class opensdk : MonoBehaviour
 
         }
         ypos += space;
-        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "Purchase"))
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "queryProductsInfo"))
+        {
+
+            OpenSDKCallback paymentCallback = new OpenSDKCallback();
+            // please replace product_id with real value
+            string product_id = "zhl_01";// 
+            qooAppUnity.Call("queryProductsInfo", paymentCallback, product_id);
+
+        }
+        ypos += space;
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "purchase"))
         {
 
             PurchaseCallback paymentCallback = new PurchaseCallback();
             // please replace product_id with real value
-            string product_id = "zhl_002";// 
+            string product_id = "zhl_01";// 
             qooAppUnity.Call("purchase", paymentCallback, androidJo, product_id);
 
         }
         ypos += space;
-        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "Consume"))
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "consume"))
         {
 
-            ConsumeCallback requestCallback = new ConsumeCallback();
+            OpenSDKCallback requestCallback = new OpenSDKCallback();
             // please replace token and purchase_id with real value
             string token = "";
             string purchase_id = "";
@@ -88,21 +137,27 @@ public class opensdk : MonoBehaviour
 
         }
         ypos += space;
-        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "RestorePurchases"))
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "restorePurchases"))
         {
 
-            RestorePurchasesCallback requestCallback = new RestorePurchasesCallback();
+            OpenSDKCallback requestCallback = new OpenSDKCallback();
             // 
             qooAppUnity.Call("restorePurchases", requestCallback);
 
         }
         ypos += space;
-        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "Logout"))
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "logout"))
         {
 
-            LogoutCallback requestCallback = new LogoutCallback();
+            OpenSDKCallback requestCallback = new OpenSDKCallback();
             // 
             qooAppUnity.Call("logout", requestCallback, androidJo);
+
+        }
+        ypos += space;
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "openGameDetail page in QooApp"))
+        {
+            qooAppUnity.Call("openGameDetail", androidJo);
 
         }
     }
@@ -116,72 +171,21 @@ public class opensdk : MonoBehaviour
         toast.CallStatic<AndroidJavaObject>("makeText", androidJo, javaString, toast.GetStatic<int>("LENGTH_SHORT")).Call("show");
     }
 
-    public class InitCallback : AndroidJavaProxy
+
+    public class OpenSDKCallback : AndroidJavaProxy
     {
-        public InitCallback() : base("com.qooapp.opensdk.common.QooAppCallback")
+        public OpenSDKCallback() : base("com.qooapp.opensdk.common.QooAppCallback")
         {
         }
 
         void onSuccess(string response)
         {
-            showToast("opensdk InitCallback response = " + response);
+            showToast("opensdk onSuccess response = " + response);
         }
 
         void onError(string error)
         {
-            showToast("InitCallback error = " + error);
-        }
-    }
-
-    public class CheckLicenseCallback : AndroidJavaProxy
-    {
-        public CheckLicenseCallback() : base("com.qooapp.opensdk.common.QooAppCallback")
-        {
-        }
-
-        void onSuccess(string response)
-        {
-            showToast("opensdk CheckLicenseCallback response = " + response);
-        }
-
-        void onError(string error)
-        {
-            showToast("opensdk CheckLicenseCallback error = " + error);
-        }
-    }
-
-    public class LoginCallback : AndroidJavaProxy
-    {
-        public LoginCallback() : base("com.qooapp.opensdk.common.QooAppCallback")
-        {
-        }
-
-        void onSuccess(string response)
-        {
-            showToast("opensdk LoginCallback response = " + response);
-        }
-
-        void onError(string error)
-        {
-            showToast("opensdk LoginCallback error = " + error);
-        }
-    }
-
-    public class QueryProductsCallback : AndroidJavaProxy
-    {
-        public QueryProductsCallback() : base("com.qooapp.opensdk.common.QooAppCallback")
-        {
-        }
-
-        void onSuccess(string response)
-        {
-            Debug.Log("queryProducts: "+ response);
-            showToast("opensdk QueryProductsCallback response = " + response);
-        }
-
-        void onError(string error)
-        {
-            showToast("opensdk QueryProductsCallback error = " + error);
+            showToast("opensdk onError error = " + error);
         }
     }
 
@@ -206,59 +210,5 @@ public class opensdk : MonoBehaviour
             showToast("opensdk PurchaseCallback onCancel()");
         }
     }
-
-    public class ConsumeCallback : AndroidJavaProxy
-    {
-        public ConsumeCallback() : base("com.qooapp.opensdk.common.QooAppCallback")
-        {
-        }
-
-        void onSuccess(string response)
-        {
-            showToast("opensdk ConsumeCallback response = " + response);
-        }
-
-        void onError(string error)
-        {
-            showToast("opensdk ConsumeCallback error = " + error);
-        }
-    }
-
-    public class RestorePurchasesCallback : AndroidJavaProxy
-    {
-        public RestorePurchasesCallback() : base("com.qooapp.opensdk.common.QooAppCallback")
-        {
-        }
-
-        void onSuccess(string response)
-        {
-            showToast("opensdk RestorePurchasesCallback response = " + response);
-        }
-
-        void onError(string error)
-        {
-            showToast("opensdk RestorePurchasesCallback error = " + error);
-        }
-    }
-
-    public class LogoutCallback : AndroidJavaProxy
-    {
-        public LogoutCallback() : base("com.qooapp.opensdk.common.QooAppCallback")
-        {
-        }
-
-        void onSuccess(string response)
-        {
-            showToast("opensdk LogoutCallback response = " + response);
-        }
-
-        void onError(string error)
-        {
-            showToast("opensdk LogoutCallback error = " + error);
-        }
-    }
-
-
-
 
 }

@@ -3,7 +3,7 @@
     package="com.qooapp.opensdk.unity.qooapp"
     android:installLocation="preferExternal"
     android:versionCode="1"
-    android:versionName="1.2.1" >
+    android:versionName="2.0.1" >
 
     <queries>
         <package android:name="com.qooapp.qoohelper" />
