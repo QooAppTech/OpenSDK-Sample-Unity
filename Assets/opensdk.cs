@@ -16,31 +16,6 @@ public class opensdk : MonoBehaviour
         Debug.Log("opensdk jc2 = " + jc);
         androidJo = jc.GetStatic<AndroidJavaObject>("currentActivity");
         Debug.Log("opensdk androidJo = " + androidJo);
-
-        
-
-        AndroidJavaObject logUtils = new AndroidJavaObject("com.qooapp.opensdk.m.f");
-        logUtils.SetStatic("a", true);
-
-        AndroidJavaObject config = new AndroidJavaObject("com.qooapp.opensdk.m.b");
-        // Config.URL_SDK a
-        config.SetStatic("a", "https://testing-open-sdk.qoo-app.com");
-        // Config.URL_SDK_SANDBOX b
-        config.SetStatic("b", "https://testing-open-sdk-sandbox.qoo-app.com");
-        // Config.URL_LOGIN c
-        config.SetStatic("c", "https://testing-sso.qoo-app.com");
-
-        // Config.PAYMENT_URL_SDK d
-        config.SetStatic("d", "https://testing-payment-platform.qoo-app.com");
-        // Config.PAYMENT_URL_SDK_SANDBOX e
-        config.SetStatic("e", "https://testing-sandbox-payment-platform.qoo-app.com");
-
-        AndroidJavaClass encryptionClass = new AndroidJavaClass("com.qooapp.opensdk.m.d");
-        // Encryption.decode com.qooapp.opensdk.m.d.a("") testing
-        string packageName = encryptionClass.CallStatic<string>("a", "Y29tLnFvb2FwcC5xb29oZWxwZXIudGVzdGZhaXJ5");
-
-        // Config.QOOAPP_PACKAGE_NAME f
-        config.SetStatic("f", packageName);
     }
 
     // Update is called once per frame
@@ -60,7 +35,7 @@ public class opensdk : MonoBehaviour
         GUI.skin.button.fontSize = 40;
 
         float xpos = 300;
-        float ypos = 100;
+        float ypos = 50;
         float width = 640;
         float heigth = 150;
         float space = heigth + 50;

@@ -29,7 +29,6 @@
     <uses-feature
         android:name="android.hardware.touchscreen.multitouch.distinct"
         android:required="false" />
-    <!-- for QooApp server -->
     <uses-permission android:name="com.qooapp.permission.CHECKER_SERVICE_ACCESS" />
 
     <application
