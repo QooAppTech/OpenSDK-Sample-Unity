@@ -1,15 +1,15 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class opensdk : MonoBehaviour
+public class OpenSDKBehavior : MonoBehaviour
 {
     // Start is called before the first frame update
     AndroidJavaClass jc;
     static AndroidJavaObject androidJo;
     static AndroidJavaObject qooAppUnity;
 
+    // Start is called before the first frame update
     void Start()
     {
         jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -21,10 +21,8 @@ public class opensdk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    private void OnGUI()
+        
+    }private void OnGUI()
     {
         GUI.color = Color.white;
         GUI.backgroundColor = Color.green;
@@ -37,13 +35,43 @@ public class opensdk : MonoBehaviour
         float xpos = 300;
         float ypos = 50;
         float width = 640;
-        float heigth = 150;
-        float space = heigth + 50;
+        float heigth = 120;
+        float space = heigth + 10;
         if (GUI.Button(new Rect(xpos, ypos, width, heigth), "initialize"))
         {
             OpenSDKCallback initCallback = new OpenSDKCallback();
             AndroidJavaClass openClass = new AndroidJavaClass("com.qooapp.opensdk.QooAppOpenSDK");
             qooAppUnity = openClass.CallStatic<AndroidJavaObject>("initialize", initCallback, androidJo);
+        }
+        ypos += space;
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "login"))
+        {
+
+            OpenSDKCallback loginCallback = new OpenSDKCallback();
+            qooAppUnity.Call("login", loginCallback, androidJo);
+
+        }
+        ypos += space;
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "logout"))
+        {
+
+            OpenSDKCallback requestCallback = new OpenSDKCallback();
+            // 
+            qooAppUnity.Call("logout", requestCallback, androidJo);
+
+        }
+        ypos += space;
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "latestVersionCode"))
+        {
+            OpenSDKCallback versionCallback = new OpenSDKCallback();
+            qooAppUnity.Call("latestVersionCode", versionCallback);
+
+        }
+        ypos += space;
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "openGameDetail page in QooApp"))
+        {
+            qooAppUnity.Call("openGameDetail", androidJo);
+
         }
         ypos += space;
         if (GUI.Button(new Rect(xpos, ypos, width, heigth), "checkLicense"))
@@ -96,7 +124,7 @@ public class opensdk : MonoBehaviour
 
             PurchaseCallback paymentCallback = new PurchaseCallback();
             // please replace product_id with real value
-            string product_id = "zhl_01";// 
+            string product_id = "3333";// 
             qooAppUnity.Call("purchase", paymentCallback, androidJo, product_id);
 
         }
@@ -118,21 +146,6 @@ public class opensdk : MonoBehaviour
             OpenSDKCallback requestCallback = new OpenSDKCallback();
             // 
             qooAppUnity.Call("restorePurchases", requestCallback);
-
-        }
-        ypos += space;
-        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "logout"))
-        {
-
-            OpenSDKCallback requestCallback = new OpenSDKCallback();
-            // 
-            qooAppUnity.Call("logout", requestCallback, androidJo);
-
-        }
-        ypos += space;
-        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "openGameDetail page in QooApp"))
-        {
-            qooAppUnity.Call("openGameDetail", androidJo);
 
         }
     }
@@ -185,5 +198,4 @@ public class opensdk : MonoBehaviour
             showToast("opensdk PurchaseCallback onCancel()");
         }
     }
-
 }
