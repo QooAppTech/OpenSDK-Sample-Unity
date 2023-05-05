@@ -124,7 +124,7 @@ public class OpenSDKBehavior : MonoBehaviour
 
             PurchaseCallback paymentCallback = new PurchaseCallback();
             // please replace product_id with real value
-            string product_id = "3333";// 
+            string product_id = "111";// 
             qooAppUnity.Call("purchase", paymentCallback, androidJo, product_id);
 
         }
