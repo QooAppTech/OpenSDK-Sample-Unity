@@ -17,12 +17,15 @@
             </intent-filter>
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
-
+        
         <meta-data
             android:name="com.qooapp.APP_ID"
             android:value="Your app_id"/>
         <meta-data
             android:name="com.qooapp.PUBLIC_KEY"
             android:value="Your Public Key"/>
+        <meta-data
+            android:name="com.qooapp.ENC_VERSION"
+            android:value="2"/>
     </application>
 </manifest>

@@ -148,12 +148,20 @@ public class OpenSDKBehavior : MonoBehaviour
             qooAppUnity.Call("restorePurchases", requestCallback);
 
         }
+        ypos += space;
+        if (GUI.Button(new Rect(xpos, ypos, width, heigth), "set Language to en_US"))
+        {
+
+            AndroidJavaClass openClass = new AndroidJavaClass("com.qooapp.opensdk.QooAppOpenSDK");
+            bool isSuccess = openClass.CallStatic<bool>("setLocale", "en_US");
+            showToast("set Language to en_US: "+isSuccess);
+        }
     }
 
     private static void showToast(object str)
     {
         AndroidJavaObject javaString = new AndroidJavaObject("java.lang.String", str.ToString());
-        Debug.Log(javaString);
+        Debug.Log(str);
 
         AndroidJavaClass toast = new AndroidJavaClass("android.widget.Toast");
         toast.CallStatic<AndroidJavaObject>("makeText", androidJo, javaString, toast.GetStatic<int>("LENGTH_SHORT")).Call("show");
