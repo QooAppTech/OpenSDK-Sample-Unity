@@ -17,13 +17,22 @@
             </intent-filter>
             <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
         </activity>
-        
+        <!-- Replace with your APP ID -->
         <meta-data
             android:name="com.qooapp.APP_ID"
-            android:value="Your app_id"/>
+            android:value="SANDd9957a9435ff11eb9b7b06a4094a134e"/>
+        <!-- Replace with your Public Key -->
         <meta-data
             android:name="com.qooapp.PUBLIC_KEY"
-            android:value="Your Public Key"/>
+            android:value="-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvXfmoPxIkVr1p1H1xpeK
+1iy6xBZeoMvWD0tllpFGpUK9s6wLrW6FbPvIfh2SbcCVMM13IyN6NAE9+cvOkJGP
+GbTAYoBGvR1JJNwegBUZzmqnFfDpfRqpAvqjV5WVTodTpBllWfJ9eGBZaWK+ywBV
+7Zz4F+c9E5IMnjfpVX6BrWoXQUiwwFmxkx4YV6aGxd/AZMdPLH7nSTWXaOXbMEQ0
+/jPA+Se9JcRon0wr1/l1usk0UBxRhCkjz6yzNHSjqaPx+vVcbmvCQc5YiQpsV+mQ
+AxRCBVJgD17V+VK0xU0VWHkD+wiRZ1at324u2l8ZRPOgcSeJ8R05Y4tAffjk4R23
+oQIDAQAB
+-----END PUBLIC KEY-----"/>
         <meta-data
             android:name="com.qooapp.ENC_VERSION"
             android:value="2"/>
